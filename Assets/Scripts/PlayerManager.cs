@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 public class PlayerManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -8,7 +9,12 @@ public class PlayerManager : MonoBehaviour
     public int playerHealth;
     public int playerMaxHealth;
     public float raycastLength = 3;
-    int mask = (1 << 6) | (1 << 7);
+    private int mask = (1 << 6) | (1 << 7);
+    public int points;
+    public List<string> collectedItems = new List<string>()
+    {
+        "coin"
+    };
 
     [Header("UI Elements")]
     public Slider healthBar;
@@ -22,6 +28,7 @@ public class PlayerManager : MonoBehaviour
 
     [Header("Interactions")]
     [SerializeField] GameObject interactable;
+    private InteractableManager interactableManager;
 
     void Start()
     {
@@ -91,8 +98,11 @@ public class PlayerManager : MonoBehaviour
     {
         if(Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hit, raycastLength, mask))
         {
-            Debug.Log(hit.collider.gameObject.name);
             interactable = hit.collider.gameObject;
+
+            interactableManager = interactable.GetComponent<InteractableManager>();
+            interactableManager.player = this;
+            interactableManager.RunInteraction();          
         }     
     }
 }
