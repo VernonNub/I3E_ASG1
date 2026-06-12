@@ -670,7 +670,7 @@ GameObject:
   - component: {fileID: 898453408}
   - component: {fileID: 898453407}
   - component: {fileID: 898453406}
-  m_Layer: 7
+  m_Layer: 15
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1809,7 +1809,7 @@ GameObject:
   - component: {fileID: 2918196297048473808}
   - component: {fileID: 4944929621852596781}
   m_Layer: 8
-  m_Name: PlayerCapsule
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

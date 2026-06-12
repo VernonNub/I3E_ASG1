@@ -6,8 +6,8 @@ public class PlayerManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [Header("Player Values")]
-    public int playerHealth;
-    public int playerMaxHealth;
+    public float playerHealth;
+    public float playerMaxHealth;
     public float raycastLength = 3;
     private int mask = (1 << 6) | (1 << 7);
     public int points;
@@ -65,9 +65,8 @@ public class PlayerManager : MonoBehaviour
     }
 
     //For taking damage, maxhealth boosts, healing etc. Parameters --> Health change - amount of health given/minus, maxhealthchange - amount of health given/minus
-    void UpdateHealth(int HealthChange, int MaxHealthChange)
+    public void UpdateHealth(float HealthChange, float MaxHealthChange)
     {
-        Debug.Log("oof -10");
         //Ensure that health does not go past MaxHealth (Doesnt give extra health)
         playerHealth = Mathf.Min(playerHealth + HealthChange, playerMaxHealth);
 
@@ -80,7 +79,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     //Reset player stats and bring to checkpoint (E.g. When death)
-    void ResetPlayer()
+    public void ResetPlayer()
     {
         //Reset health and any effects
         playerHealth = 100;
@@ -94,7 +93,7 @@ public class PlayerManager : MonoBehaviour
         characterController.enabled = true;
     }    
 
-    void InteractWithObject()
+    public void InteractWithObject()
     {
         if(Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hit, raycastLength, mask))
         {
