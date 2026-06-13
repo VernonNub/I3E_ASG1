@@ -10,11 +10,16 @@ public class PlayerManager : MonoBehaviour
     public float playerMaxHealth;
     public float raycastLength = 3;
     private int mask = (1 << 6) | (1 << 7);
+    
+    [Header("Player Items")]
+    public List<string> collectedItems = new List<string>();
+    public List<string> uniqueItems = new List<string>();
+
+    [Header("Points")]
     public int points;
-    public List<string> collectedItems = new List<string>()
-    {
-        "coin"
-    };
+    public int uniqueItemsCount;
+    public int maxPoints;
+    public int maxUniqueItems;
 
     [Header("UI Elements")]
     public Slider healthBar;
@@ -23,7 +28,7 @@ public class PlayerManager : MonoBehaviour
 
     [Header("Player Components")]
     [SerializeField] CharacterController characterController;
-    [SerializeField] GameObject currentCheckPoint;
+    public GameObject currentCheckPoint;
     public GameObject playerCamera;
 
     [Header("Interactions")]
@@ -70,7 +75,16 @@ public class PlayerManager : MonoBehaviour
         //Ensure that health does not go past MaxHealth (Doesnt give extra health)
         playerHealth = Mathf.Min(playerHealth + HealthChange, playerMaxHealth);
 
-        playerHealth += MaxHealthChange;
+        //Ensure player max health is not 0 or does not become negative
+        if(playerMaxHealth + MaxHealthChange <= 0)
+        {
+            playerMaxHealth = 1;
+        }
+        else
+        {
+            playerMaxHealth += MaxHealthChange;
+        }    
+
         //Set new health amount
         playerMaxHealth += MaxHealthChange;
 
@@ -93,14 +107,17 @@ public class PlayerManager : MonoBehaviour
         characterController.enabled = true;
     }    
 
+    //Handles all interaction
     public void InteractWithObject()
     {
+        //Casts raycast on object --> using camera since thats how players will interact
         if(Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hit, raycastLength, mask))
         {
+            //Gets the game object
             interactable = hit.collider.gameObject;
 
+            //gets the manager and runs it --> it will then leave to the script to run the action accordingly
             interactableManager = interactable.GetComponent<InteractableManager>();
-            interactableManager.player = this;
             interactableManager.RunInteraction();          
         }     
     }
