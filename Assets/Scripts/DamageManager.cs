@@ -18,6 +18,17 @@ public class DamageManager : MonoBehaviour
         Heal
     }
 
+    //Clearing hazard methods e.g. Remove --> extinguish fire, resist --> gas mask for toxic gas
+    public enum ClearanceMethod
+    {
+        Remove,
+        Resist,
+    }
+
+    public ClearanceMethod clearanceMethod;
+
+    public bool isClearable;
+
     [Header("Damage Info")]
     //Here is where we assign the damagetype --> through inspector --> this allows for the use of prefabs 
     //where all damagetype will use one script!
@@ -91,6 +102,20 @@ public class DamageManager : MonoBehaviour
                     
                 HealUsed = true;
                 break; 
+        }
+    }
+
+    public void ClearHazard()
+    {
+        switch(clearanceMethod)
+        {
+            case ClearanceMethod.Remove:
+                gameObject.SetActive(false);
+                break;
+            
+            case ClearanceMethod.Resist:
+                damageDone = 0;
+                break;
         }
     }
 }

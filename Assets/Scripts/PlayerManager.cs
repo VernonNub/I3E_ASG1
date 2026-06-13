@@ -49,6 +49,8 @@ public class PlayerManager : MonoBehaviour
             deathNotification.gameObject.SetActive(true);
             ResetPlayer();
         }
+
+        UpdateHealthBar();
     }
 
     void OnClick()
@@ -87,9 +89,6 @@ public class PlayerManager : MonoBehaviour
 
         //Set new health amount
         playerMaxHealth += MaxHealthChange;
-
-        //UpdateHealthbar UI after taking effects
-        UpdateHealthBar();
     }
 
     //Reset player stats and bring to checkpoint (E.g. When death)
@@ -98,8 +97,6 @@ public class PlayerManager : MonoBehaviour
         //Reset health and any effects
         playerHealth = 100;
         playerMaxHealth = 100;
-
-        UpdateHealthBar();
 
         //Tp playerback to checkpoint (Since the player is moved using character controller, it is important to disable the cc so that the character controller do not override the TP)
         characterController.enabled = false;
